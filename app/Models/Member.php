@@ -15,8 +15,4 @@ class Member extends Model
         'status',
     ];
 
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
-    }
 }

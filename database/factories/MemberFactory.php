@@ -18,8 +18,8 @@ class MemberFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'house_number' => $this->faker->optional()->buildingNumber(),
-            'phone' => $this->faker->optional()->phoneNumber(),
+            'house_number' => strtoupper($this->faker->bothify('A##')),
+            'phone' => $this->faker->phoneNumber(),
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }
