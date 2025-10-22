@@ -22,13 +22,15 @@ class MemberForm
                 TextInput::make('house_number')
                     ->label('Nomor Rumah')
                     ->placeholder('Contoh: A12')
-                    ->maxLength(10),
+                    ->maxLength(10)
+                    ->required(),
 
                 TextInput::make('phone')
                     ->label('Nomor Telepon')
                     ->placeholder('Contoh: 0812xxxxxxx')
                     ->tel()
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->required(),
 
                 Select::make('status')
                     ->label('Status Warga')
