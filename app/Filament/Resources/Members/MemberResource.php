@@ -18,7 +18,7 @@ use BackedEnum;
 class MemberResource extends Resource
 {
     protected static ?string $model = Member::class;
-    protected static UnitEnum|string|null $navigationGroup = 'Data Master';
+    // protected static UnitEnum|string|null $navigationGroup = 'Data Master';
     protected static BackedEnum|string|null $navigationIcon = Heroicon::OutlinedUserGroup;
     
     protected static ?string $pluralModelLabel = 'Anggota';

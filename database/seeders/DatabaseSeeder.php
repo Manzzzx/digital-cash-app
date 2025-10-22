@@ -17,23 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-    // Buat Super Admin default
     $user = User::firstOrCreate([
         'email' => 'superadmin@digitalcash.app',
     ], [
         'name' => 'Super Admin',
-        'password' => bcrypt('password'), // ganti sesuai kebutuhan
+        'password' => bcrypt('password'),
     ]);
-
     $role = Role::firstOrCreate(['name' => 'super_admin']);
-
-    // Berikan semua permission ke super_admin
     $role->syncPermissions(Permission::all());
-
     $user->assignRole($role);
     
         $this->call([
         MemberSeeder::class,
+        CategorySeeder::class,
     ]);
     }
 }
