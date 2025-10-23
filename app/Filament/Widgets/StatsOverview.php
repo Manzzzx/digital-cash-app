@@ -18,14 +18,6 @@ class StatsOverview extends BaseWidget
 
         $totalTransactions = Transaction::count();
 
-        $thisMonthIncome = Transaction::where('type', 'income')
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->sum('amount');
-
-        $thisMonthExpense = Transaction::where('type', 'expense')
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->sum('amount');
-
         return [
             Stat::make('Total Pemasukan', 'Rp ' . number_format($totalIncome, 0, ',', '.'))
                 ->description('Total keseluruhan pemasukan')
