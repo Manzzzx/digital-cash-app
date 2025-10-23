@@ -108,8 +108,7 @@ class TransactionForm
                     ->image()
                     ->imageEditor()
                     ->maxSize(2048)
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
             ]);
     }
 }

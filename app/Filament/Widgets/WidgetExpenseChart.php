@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -13,22 +14,35 @@ class WidgetExpenseChart extends ChartWidget
 
     protected function getData(): array
     {
-        $months = collect(range(1, 12))->map(fn ($m) => Carbon::create()->month($m)->translatedFormat('F'));
+        // Ambil total pengeluaran per bulan berdasarkan kolom `date`
+        $data = Transaction::select(
+                DB::raw('MONTH(date) as month'),
+                DB::raw('SUM(amount) as total')
+            )
+            ->where('type', 'expense')
+            ->whereYear('date', now()->year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
-        $expenses = collect(range(1, 12))->map(fn ($m) =>
-            Transaction::where('type', 'expense')
-                ->whereMonth('created_at', $m)
-                ->whereYear('created_at', now()->year)
-                ->sum('amount')
-        );
+        // Buat array bulan lengkap 1–12
+        $months = collect(range(1, 12))->map(fn($m) => Carbon::create()->month($m)->translatedFormat('M'))->toArray();
+
+        // Mapping nilai pengeluaran per bulan
+        $expense = [];
+        foreach (range(1, 12) as $m) {
+            $found = $data->firstWhere('month', $m);
+            $expense[] = $found ? $found->total : 0;
+        }
 
         return [
             'datasets' => [
                 [
                     'label' => 'Pengeluaran',
-                    'data' => $expenses,
+                    'data' => $expense,
                     'borderColor' => '#EF4444',
-                    'backgroundColor' => 'rgba(239,68,68,0.2)',
+                    'backgroundColor' => 'rgba(239, 68, 68, 0.3)',
+                    'fill' => true,
                     'tension' => 0.4,
                 ],
             ],

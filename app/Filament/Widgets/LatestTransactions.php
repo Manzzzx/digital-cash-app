@@ -17,7 +17,7 @@ class LatestTransactions extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => Transaction::latest()->limit(5))
+            ->query(fn (): Builder => Transaction::latest()->limit(10))
             ->columns([
                 Tables\Columns\TextColumn::make('reference_number')
                     ->label('No. Ref')
@@ -44,7 +44,7 @@ class LatestTransactions extends TableWidget
                     ->money('IDR', true)
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
                     ->date('d M Y')
                     ->sortable(),

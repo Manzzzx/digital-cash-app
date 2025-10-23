@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\ChartWidget;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class WidgetBalanceChart extends ChartWidget
 {
@@ -14,33 +15,46 @@ class WidgetBalanceChart extends ChartWidget
 
     protected function getData(): array
     {
-        $months = collect(range(1, 12))->map(fn ($m) => Carbon::create()->month($m)->translatedFormat('F'));
+        $transactions = Transaction::select(
+                DB::raw('MONTH(date) as month'),
+                DB::raw("SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as total_income"),
+                DB::raw("SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as total_expense")
+            )
+            ->whereYear('date', now()->year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
-        $income = collect(range(1, 12))->map(fn ($m) =>
-            Transaction::where('type', 'income')
-                ->whereMonth('created_at', $m)
-                ->whereYear('created_at', now()->year)
-                ->sum('amount')
-        );
+        $months = collect(range(1, 12))->map(function ($m) {
+            return Carbon::create()->month($m)->translatedFormat('M');
+        })->toArray();
 
-        $expense = collect(range(1, 12))->map(fn ($m) =>
-            Transaction::where('type', 'expense')
-                ->whereMonth('created_at', $m)
-                ->whereYear('created_at', now()->year)
-                ->sum('amount')
-        );
+        $incomeData = [];
+        $expenseData = [];
+
+        foreach (range(1, 12) as $m) {
+            $found = $transactions->firstWhere('month', $m);
+            $incomeData[] = $found ? $found->total_income : 0;
+            $expenseData[] = $found ? $found->total_expense : 0;
+        }
 
         return [
             'datasets' => [
                 [
                     'label' => 'Pemasukan',
-                    'data' => $income,
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.8)',
+                    'data' => $incomeData,
+                    'borderColor' => '#10B981',
+                    'backgroundColor' => 'rgba(16, 185, 129, 0.2)',
+                    'fill' => true,
+                    'tension' => 0.4,
                 ],
                 [
                     'label' => 'Pengeluaran',
-                    'data' => $expense,
-                    'backgroundColor' => 'rgba(239, 68, 68, 0.8)',
+                    'data' => $expenseData,
+                    'borderColor' => '#EF4444',
+                    'backgroundColor' => 'rgba(239, 68, 68, 0.2)',
+                    'fill' => true,
+                    'tension' => 0.4,
                 ],
             ],
             'labels' => $months,

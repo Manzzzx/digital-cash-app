@@ -16,11 +16,15 @@ class MemberFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('id_ID');
+
         return [
-            'name' => $this->faker->name(),
-            'house_number' => strtoupper($this->faker->bothify('A##')),
-            'phone' => $this->faker->phoneNumber(),
-            'status' => $this->faker->randomElement(['active', 'inactive']),
+            'name' => $faker->name(),
+            'house_number' => 'A' . $faker->numberBetween(1, 99),
+            'phone' => '+62 ' . $faker->numerify('8##-####-####'),
+            'status' => $faker->randomElement(['active', 'inactive']),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
