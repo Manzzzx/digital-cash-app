@@ -30,7 +30,8 @@ class TransactionsTable
                     ->colors([
                         'success' => 'income',
                         'danger' => 'expense',
-                    ]),
+                    ])
+                    ->formatStateUsing(fn ($state) => $state === 'income' ? 'Pemasukan' : 'Pengeluaran'),
                 TextColumn::make('amount')
                     ->label('Jumlah')
                     ->money('IDR')
