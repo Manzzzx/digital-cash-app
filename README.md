@@ -270,6 +270,11 @@ php artisan key:generate
 ```bash
 php artisan migrate:fresh --seed
 ```
+lanjut
+```bash
+php artisan shield:generate --all
+```
+buat generate roles dan permissions
 
 ### 6️⃣ Jalankan Server & Vite
 
