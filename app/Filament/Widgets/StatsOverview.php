@@ -20,17 +20,17 @@ class StatsOverview extends BaseWidget
 
         return [
             Stat::make('Total Pemasukan', 'Rp ' . number_format($totalIncome, 0, ',', '.'))
-                ->description('Total keseluruhan pemasukan')
+                ->description('Total pemasukan')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
             Stat::make('Total Pengeluaran', 'Rp ' . number_format($totalExpense, 0, ',', '.'))
-                ->description('Total keseluruhan pengeluaran')
+                ->description('Total pengeluaran')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
 
             Stat::make('Saldo Saat Ini', 'Rp ' . number_format($balance, 0, ',', '.'))
-                ->description('Saldo bersih kas warga')
+                ->description('Sisa saldo')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color($balance >= 0 ? 'success' : 'danger'),
 
