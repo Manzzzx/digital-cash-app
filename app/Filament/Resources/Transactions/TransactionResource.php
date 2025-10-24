@@ -20,7 +20,7 @@ class TransactionResource extends Resource
     protected static ?string $modelLabel = 'Transaksi';
     protected static ?string $pluralModelLabel = 'Transaksi';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
-
+    protected static ?int $navigationSort = 4;
     protected static ?string $recordTitleAttribute = 'reference_number';
 
     public static function form(Schema $schema): Schema

@@ -14,6 +14,8 @@ use BackedEnum;
 class Dashboard extends BaseDashboard
 {
     protected static string|BackedEnum|null $navigationIcon =  Heroicon::OutlinedHome;
+    protected static ?int $navigationSort = 1;
+
 
 
     public function getWidgets(): array

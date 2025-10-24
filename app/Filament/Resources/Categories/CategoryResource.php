@@ -20,6 +20,8 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
     // protected static UnitEnum|string|null $navigationGroup = 'Data Master';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationLabel = 'Kategori';
     protected static ?string $pluralModelLabel = 'Daftar Kategori';
     protected static ?string $modelLabel = 'Kategori';
