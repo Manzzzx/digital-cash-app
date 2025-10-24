@@ -2,7 +2,7 @@
 
 > **Versi:** 1.0.0
 > **Framework:** Laravel 12 + Filament Admin Panel
-> **Author:** Firmansyah
+> **Author:** Manzzzx
 
 ---
 
@@ -41,7 +41,7 @@ php artisan make:filament-widget WidgetFinancialSummary --panel=admin
 # 4️⃣ Buat widget tabel transaksi
 php artisan make:filament-widget WidgetFinancialTable --panel=admin --type=table --model=Transaction
 
-# 5️⃣ export Excel 
+# 5️⃣ (Opsional) Buat export Excel class
 php artisan make:export FinancialReportExport --model=Transaction
 ```
 
@@ -222,12 +222,90 @@ php artisan migrate:fresh --seed
 
 ---
 
-## 🧑‍💻 Catatan Pengembangan Berikutnya
+## 🧩 Setup Guide
 
-* [ ] Tambahkan **role-based access control** untuk membatasi menu per user (admin, bendahara, warga)
-* [ ] Buat **public financial viewer** (tanpa login, readonly)
-* [ ] Auto-refresh widget berdasarkan filter (Livewire listener)
+Langkah-langkah untuk developer lain yang ingin menjalankan proyek ini setelah melakukan clone dari GitHub.
 
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/username/digital-cash-app.git
+cd digital-cash-app
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+composer install
+npm install
+```
+
+> ⚠️ Pastikan PHP ≥ 8.2 (Filament v4 & Laravel 12 membutuhkan PHP versi ini)
+
+### 3️⃣ Setup File `.env`
+
+```bash
+cp .env.example .env
+```
+
+Ubah variabel environment penting:
+
+```env
+APP_NAME="Digital Cash App"
+APP_URL=http://127.0.0.1:8000
+DB_CONNECTION=mysql
+DB_DATABASE=digitalcash_app
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4️⃣ Generate App Key
+
+```bash
+php artisan key:generate
+```
+
+### 5️⃣ Migrasi & Seeder
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### 6️⃣ Jalankan Server & Vite
+
+```bash
+php artisan serve
+npm run dev
+```
+
+Akses:
+
+```
+http://127.0.0.1:8000/admin
+```
+
+### 7️⃣ Login ke Admin Panel
+
+Gunakan akun default dari seeder atau buat manual.
+Contoh default:
+
+```
+Email: superadmin@digitalcash.app
+Password: password
+```
+
+### 8️⃣ Link Storage
+
+```bash
+php artisan storage:link
+```
+
+
+### 9️⃣ Optimisasi Akhir
+
+```bash
+php artisan optimize:clear
+```
 ---
 
 ## 🖼️ Live Demo Preview
