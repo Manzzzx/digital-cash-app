@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles; // ← penting untuk Shield
-use Filament\Models\Contracts\FilamentUser; // ← agar bisa login ke Filament
-use Filament\Panel; // ← dibutuhkan untuk method canAccessPanel
+use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -53,7 +53,6 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        // Super admin dan admin bisa akses panel
-        return $this->hasRole('super_admin') || $this->hasRole('admin');
+        return $this->hasAnyRole(['super_admin', 'bendahara']);
     }
 }
